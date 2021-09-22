@@ -1,7 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"github.com/01Joseph-Hwang10/josephcoin/explorer"
+)
 
 func main() {
-	fmt.Println("Hello World!")
+	explorer.Start(4000)
 }

@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/01Joseph-Hwang10/josephcoin/explorer"
+	"github.com/01Joseph-Hwang10/josephcoin/cli"
 )
 
 func main() {
-	explorer.Start(4000)
+	cli.Start()
 }

@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/01Joseph-Hwang10/josephcoin/explorer"
+	"github.com/01Joseph-Hwang10/josephcoin/rest"
 )
 
 func usage() {
@@ -17,9 +18,6 @@ func usage() {
 }
 
 func Start() {
-	if len(os.Args) == 1 {
-		usage()
-	}
 
 	port := flag.Int("port", 4000, "Set port of the server")
 	mode := flag.String("mode", "rest", "Choose between 'html' and 'rest'")
@@ -28,8 +26,10 @@ func Start() {
 
 	switch *mode {
 	case "rest":
-		fmt.Println("REST")
+		fmt.Println("Starting in REST mode...")
+		rest.Start(*port)
 	case "html":
+		fmt.Println("Starting in explorer mode...")
 		explorer.Start(*port)
 	default:
 		usage()

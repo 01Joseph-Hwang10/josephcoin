@@ -7,6 +7,7 @@ import (
 	"text/template"
 
 	Blockchain "github.com/01Joseph-Hwang10/josephcoin/blockchain"
+	"github.com/01Joseph-Hwang10/josephcoin/utils"
 )
 
 const (
@@ -20,14 +21,9 @@ type homeData struct {
 	Blocks    []*Blockchain.Block
 }
 
-func logRequest(r *http.Request) {
-	fmt.Printf("[%s] \"%s\"\n", r.Method, r.RequestURI)
-}
-
 func home(rw http.ResponseWriter, r *http.Request) {
 	data := homeData{"Home", Blockchain.GetBlockchain().AllBlocks()}
 	templates.ExecuteTemplate(rw, "home", data)
-	logRequest(r)
 }
 
 func add(rw http.ResponseWriter, r *http.Request) {
@@ -40,14 +36,14 @@ func add(rw http.ResponseWriter, r *http.Request) {
 		Blockchain.GetBlockchain().AddBlock(data)
 		http.Redirect(rw, r, "/", http.StatusPermanentRedirect)
 	}
-	logRequest(r)
 }
 
 func Start(port int) {
+	handler := http.NewServeMux()
 	templates = template.Must(template.ParseGlob(templateDir + "pages/*.html"))
 	templates = template.Must(templates.ParseGlob(templateDir + "partials/*.html"))
-	http.HandleFunc("/", home)
-	http.HandleFunc("/add", add)
+	handler.HandleFunc("/", utils.WithLog(home))
+	handler.HandleFunc("/add", utils.WithLog(add))
 	fmt.Printf("Listening on http://localhost:%d\n", port)
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), nil))
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), handler))
 }

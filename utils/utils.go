@@ -2,10 +2,12 @@ package utils
 
 import (
 	"bytes"
+	"crypto/sha256"
 	"encoding/gob"
 	"fmt"
 	"log"
 	"net/http"
+	"time"
 )
 
 func HandleErr(err error) {
@@ -22,7 +24,10 @@ func WithLog(handler http.HandlerFunc) http.HandlerFunc {
 }
 
 func logRequest(r *http.Request) {
-	fmt.Printf("[%s] \"%s\"\n", r.Method, r.RequestURI)
+	if !Production {
+		currentTime := time.Now()
+		fmt.Printf("%s [%s] \"%s\"\n", currentTime, r.Method, r.RequestURI)
+	}
 }
 
 func ToBytes(i interface{}) []byte {
@@ -35,4 +40,17 @@ func ToBytes(i interface{}) []byte {
 func FromBytes(i interface{}, data []byte) {
 	decoder := gob.NewDecoder(bytes.NewReader(data))
 	HandleErr(decoder.Decode(i))
+}
+
+func Hash(i interface{}) string {
+	s := fmt.Sprintf("%v", i)
+	hash := sha256.Sum256([]byte(s))
+	return fmt.Sprintf("%x", hash)
+}
+
+func DevLog(i interface{}) {
+	if !Production {
+		currentTime := time.Now()
+		fmt.Printf("%s [LOG] %s\n\n", currentTime, i)
+	}
 }

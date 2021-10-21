@@ -4,6 +4,11 @@ import (
 	"net/http"
 )
 
+const (
+	GET  string = "GET"
+	POST string = "POST"
+)
+
 type urlDescription struct {
 	URL        url                 `json:"url"`
 	Methods    []methodDescription `json:"methods"`
@@ -22,7 +27,7 @@ var urlData []urlDescription = []urlDescription{
 		URL: url("/"),
 		Methods: []methodDescription{
 			{
-				Method:      "GET",
+				Method:      GET,
 				Description: "See Documentation",
 			},
 		},
@@ -34,11 +39,11 @@ var urlData []urlDescription = []urlDescription{
 		urlPattern: "/blocks",
 		Methods: []methodDescription{
 			{
-				Method:      "GET",
+				Method:      GET,
 				Description: "See All Blocks",
 			},
 			{
-				Method:      "POST",
+				Method:      POST,
 				Description: "Add A Block",
 				Payload:     "data:string",
 			},
@@ -50,10 +55,21 @@ var urlData []urlDescription = []urlDescription{
 		urlPattern: "/blocks/{hash:[a-f0-9]+}",
 		Methods: []methodDescription{
 			{
-				Method:      "GET",
+				Method:      GET,
 				Description: "See A Block",
 			},
 		},
 		handler: block,
+	},
+	{
+		URL:        url("/status"),
+		urlPattern: "/status",
+		Methods: []methodDescription{
+			{
+				Method:      GET,
+				Description: "See A Block",
+			},
+		},
+		handler: status,
 	},
 }

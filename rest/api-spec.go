@@ -46,8 +46,8 @@ var urlData []urlDescription = []urlDescription{
 		handler: blocks,
 	},
 	{
-		URL:        url("/blocks/{height}"),
-		urlPattern: "/blocks/{height:[0-9]+}",
+		URL:        url("/blocks/{hash}"),
+		urlPattern: "/blocks/{hash:[a-f0-9]+}",
 		Methods: []methodDescription{
 			{
 				Method:      "GET",

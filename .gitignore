@@ -1,0 +1,5 @@
+# sum file
+*.sum
+
+# db
+*.db

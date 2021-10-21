@@ -3,7 +3,7 @@ package cli
 import (
 	"flag"
 	"fmt"
-	"os"
+	"runtime"
 
 	"github.com/01Joseph-Hwang10/josephcoin/explorer"
 	"github.com/01Joseph-Hwang10/josephcoin/rest"
@@ -14,7 +14,7 @@ func usage() {
 	fmt.Printf("Please use the following flags:\n\n")
 	fmt.Printf("-port:		Set the PORT of the server\n")
 	fmt.Printf("-mode:		Choose between 'html' and 'rest'\n\n")
-	os.Exit(0)
+	runtime.Goexit()
 }
 
 func Start() {
